@@ -1,0 +1,19 @@
+{
+  "name": "capture-web-page",
+  "version": "1.0.0",
+  "description": "capture web page",
+  "main": "main.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node main.js"
+  },
+  "keywords": [
+    "capture"
+  ],
+  "author": "shanmite",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "puppeteer": "^5.5.0"
+  }
+}
