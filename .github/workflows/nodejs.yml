@@ -5,12 +5,12 @@ on:
       - master
 jobs:
   Run:
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
     - name: 'Run by Nodejs'
       uses: actions/setup-node@v1
       with:
         node-version: 12.18.4
-    - run: npm build
-    - run: npm start
+    - run: npm run build
+    - run: npm run start
