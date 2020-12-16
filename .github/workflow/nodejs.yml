@@ -1,0 +1,22 @@
+name: Run in Nodejs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  Run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: 12.18.3
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run by Nodejs ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: build
+      - run: npm build
+    - name: start
+      - run: npm start

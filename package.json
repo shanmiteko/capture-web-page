@@ -4,6 +4,7 @@
   "description": "capture web page",
   "main": "src/main.js",
   "scripts": {
+    "build": "npm install",
     "test": "node test/test.js",
     "start": "node src/main.js"
   },

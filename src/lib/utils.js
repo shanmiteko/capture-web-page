@@ -41,7 +41,7 @@ function IfNotExistCreateDir(dirname) {
  * @param {string} [defaultValue] 写入默认值
  * @returns {Promise<void>}
  */
-function IfNotExistCreastFile(filepath, defaultValue = '') {
+function IfNotExistCreateFile(filepath, defaultValue = '') {
     const fpath = path.join(root, filepath);
     const buffer = Buffer.from(defaultValue);
     return new Promise((resolve, rejects) => {
@@ -65,5 +65,5 @@ module.exports = {
     root,
     to,
     IfNotExistCreateDir,
-    IfNotExistCreastFile
+    IfNotExistCreateFile
 }

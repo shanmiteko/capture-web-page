@@ -1,9 +1,9 @@
 const { screenshot } = require("./lib/screenshot");
-const { IfNotExistCreastFile } = require("./lib/utils");
+const { IfNotExistCreateFile } = require("./lib/utils");
 
 (function () {
     Promise.resolve()
-        .then(() => IfNotExistCreastFile('src/config/secret.json', '{"BiliCOOKIE": ""}'))
+        .then(() => IfNotExistCreateFile('src/config/secret.json', '{"BiliCOOKIE": ""}'))
         .then(() => screenshot('https://www.bilibili.com'))
         .then(filename => require("./lib/upload").uploadToBili(filename))
         .then(res => {
