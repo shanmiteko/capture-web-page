@@ -1,22 +1,16 @@
 name: 'Run in Nodejs'
-
 on:
   push:
-    branches: [ master ]
-
+    branches:
+      - master
 jobs:
   Run:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: 12.18.3
+    runs-on: Ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
-    - name: 'Run by Nodejs ${{ matrix.node-version }}'
+    - name: 'Run by Nodejs'
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: build
-      - run: npm build
-    - name: start
-      - run: npm start
+        node-version: 12.18.4
+    - run: npm run build
+    - run: npm run start
