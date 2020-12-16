@@ -2,18 +2,28 @@
   "name": "capture-web-page",
   "version": "1.0.0",
   "description": "capture web page",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "node test.js",
-    "start": "node main.js"
+    "test": "node test/test.js",
+    "start": "node src/main.js"
   },
   "keywords": [
-    "capture"
+    "capture",
+    "screenshot"
   ],
   "author": "shanmite",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.0",
+    "form-data": "^3.0.0",
     "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0"
+  },
+  "homepage": "https://github.com/shanmite/Capture-Web-Page",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shanmite/Capture-Web-Page.git"
   }
 }

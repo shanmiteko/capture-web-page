@@ -1,2 +1,3 @@
-Captured pictures/
+Captured pictures/*
 node_modules/
+src/config/secret.json
