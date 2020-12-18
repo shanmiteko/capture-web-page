@@ -15,7 +15,7 @@ jobs:
       - name: 'build & run'
         shell: bash
         env:
-          BILI: ${{ env.COOKIES }}
+          BILI: ${{ secrets.BILI_COOKIES }}
         run: |
           npm run build
           npm run start
