@@ -3,8 +3,8 @@ const { IfNotExistCreateFile } = require("./lib/utils");
 
 (function () {
     Promise.resolve()
-        .then(() => process.env.BILICOOKIES || '')
-        .then(BILICOOKIES => IfNotExistCreateFile('src/config/secret.json', `{"BiliCOOKIE": "${BILICOOKIES}}"`))
+        .then(() => process.env.BILI || '')
+        .then(BILI => IfNotExistCreateFile('src/config/secret.json', JSON.stringify({ BiliCOOKIE: BILI })))
         .then(() => screenshot('https://www.bilibili.com'))
         .then(filename => require("./lib/upload").uploadToBili(filename))
         .then(res => {

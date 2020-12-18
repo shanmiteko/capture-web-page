@@ -6,7 +6,6 @@ on:
 jobs:
   Run:
     runs-on: Ubuntu-18.04
-
     steps:
       - uses: actions/checkout@v2
       - name: 'Use Nodejs'
@@ -16,7 +15,7 @@ jobs:
       - name: 'build & run'
         shell: bash
         env:
-          BILICOOKIES: ${{ secrets.COOKIES }}
+          BILI: ${{ secrets.COOKIES }}
         run: |
           npm run build
           npm run start
