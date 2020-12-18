@@ -19,4 +19,4 @@ jobs:
           BILICOOKIES: ${{ secrets.COOKIES }}
         run: |
           npm run build
-          mpm run start
+          npm run start
