@@ -1,14 +1,9 @@
 name: 'Run in Nodejs'
 on:
+  workflow_dispatch: 
   push:
     branches:
       - master
-  workflow_dispatch:
-    input:
-      launch:
-        des: 'launch this workflow'
-      close:
-        des: 'close this workflow'
 jobs:
   Run:
     runs-on: Ubuntu-18.04

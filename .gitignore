@@ -1,3 +1,4 @@
 Captured pictures/*.png
 node_modules/
 src/config/secret.json
+__/
