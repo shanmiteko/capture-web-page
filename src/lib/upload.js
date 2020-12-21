@@ -1,42 +1,31 @@
-const { default: Axios } = require("axios");
 const FormData = require("form-data");
-const fs = require('fs');
 const path = require('path');
-const config = require('../config/config.json');
-const secret = require('../config/secret.json');
-const { root } = require("./utils");
+const fs = require('fs');
 
-const { OUTPATH, UA } = config;
-const { BiliCOOKIE } = secret;
-const url = "https://api.vc.bilibili.com/api/v1/drawImage/upload";
+const { imgBed } = require("./api/bilibili");
+const { root } = require("./utils");
+const { OUTPATH } = require('../config/config');
 
 /**
- * 上传至B站图床
+ * 上传本地图片
  * @param {string} filename 文件名
- * @returns {Promise<JSON>}
+ * @returns {Promise<string>} 图片链接
  */
-function uploadToBili(filename) {
-    if(BiliCOOKIE.length === 0) return Promise.reject('请在src/config/secret.json中的BiliCOOKIE处填入Cookies');
+function upload(filename) {
     return new Promise((resolve, reject) => {
         const form = new FormData();
-        form.append("file_up", fs.createReadStream(path.join(root,OUTPATH,filename)), filename)
+        form.append("file_up", fs.createReadStream(path.join(root, OUTPATH, filename)), filename)
         form.append("biz", "draw");
         form.append("category", "daily");
-        const headers = {
-            ...form.getHeaders(),
-            'User-Agent': UA,
-            'Cookie': BiliCOOKIE,
-        }
-        Axios.post(url, form, { headers })
-            .then(
-                res => {
-                    resolve(res.data);
-                },
-                err => {
-                    reject(err);
-                }
-            )
+        imgBed(form).then(
+            AxiosResponse => {
+                const { data: res } = AxiosResponse;
+                res.code === 0 ?
+                    resolve(res.data.image_url) : reject(res)
+            },
+            err => reject(err)
+        )
     });
 }
 
-module.exports = { uploadToBili }
+module.exports = { upload }

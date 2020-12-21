@@ -1,5 +1,5 @@
 const { root, IfNotExistCreateDir } = require('./utils');
-const config = require('../config/config.json');
+const config = require('../config/config');
 const puppeteer = require('puppeteer');
 const path = require('path');
 

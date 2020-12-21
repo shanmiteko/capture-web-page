@@ -9,7 +9,7 @@ const root = path.join(__dirname, '..', '..')
 /**
  * @template T
  * @param {Promise<T>} promise
- * @returns {Promise<[null|Error, T|undefined]>}
+ * @returns {Promise<[null|Error, T|undefined]>} [err, data]
  */
 function to(promise) {
     return promise
@@ -18,6 +18,19 @@ function to(promise) {
             if (err instanceof Error) return [err, undefined]
             return [new Error(err), undefined]
         })
+}
+
+/**
+ * 延时函数
+ * @param {number} time ms
+ * @returns {Promise<void>}
+ */
+function delay(time) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve()
+        }, time)
+    })
 }
 
 /**
@@ -63,6 +76,7 @@ function IfNotExistCreateFile(filepath, defaultValue = '') {
 
 module.exports = {
     root,
+    delay,
     to,
     IfNotExistCreateDir,
     IfNotExistCreateFile

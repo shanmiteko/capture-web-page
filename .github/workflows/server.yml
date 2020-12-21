@@ -1,9 +1,5 @@
 name: 'Run in Nodejs'
-on:
-  workflow_dispatch: 
-  push:
-    branches:
-      - master
+on: [workflow_dispatch]
 jobs:
   Run:
     runs-on: Ubuntu-18.04
@@ -13,10 +9,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.18.4
-      - name: 'build & run'
+      - name: 'install && run'
         shell: bash
         env:
           BILI: ${{ secrets.BILI_COOKIES }}
+          TOKEN: ${{ secrets.ACCESS_TOKEN}}
+          REPO: ${{ GITHUB_REPOSITORY }}
         run: |
-          npm run build
-          npm run start
+          npm run server-install
+          npm run server

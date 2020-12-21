@@ -2,10 +2,13 @@
   "name": "capture-web-page",
   "version": "1.0.0",
   "description": "capture web page",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
-    "build": "npm install",
-    "test": "node test/test.js",
+    "install": "npm install",
+    "server-install": "npm install axios form-data puppeteer",
+    "server": "node src/server.js",
+    "client-install": "npm install axios inquirer",
+    "client": "node src/client.js",
     "start": "node main.js"
   },
   "keywords": [
@@ -17,6 +20,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "form-data": "^3.0.0",
+    "inquirer": "^7.3.3",
     "puppeteer": "^5.5.0"
   },
   "devDependencies": {
