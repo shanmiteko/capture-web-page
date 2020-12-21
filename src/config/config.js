@@ -7,7 +7,7 @@ const { IfNotExistCreateFile } = require("../lib/utils");
 function initSecret() {
     const { BILI = '', TOKEN = '',REPO = '' } = process.env;
     return IfNotExistCreateFile(
-        './config/secret.json',
+        'src/config/secret.json',
         JSON.stringify({
             bili_cookies: BILI,
             github_access_token: TOKEN,

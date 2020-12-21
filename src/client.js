@@ -27,7 +27,7 @@ const { to, delay } = require("./lib/utils");
                     type: 'input',
                     message: 'proxied-url:',
                     name: 'url',
-                    default: ''
+                    default: 'null'
                 }, {
                     type: 'confirm',
                     message: 'Whether or not to get proxy-url?',
@@ -48,7 +48,7 @@ const { to, delay } = require("./lib/utils");
                 const { cout } = data;
                 typeof cout === 'string' ? console.log(cout) : console.log('no proxy-url');
             }
-            [err, data] = url === '' ? [undefined, undefined] : await to(setLink(url)); /* 设置连接 */
+            [err, data] = url === 'null' ? [undefined, undefined] : await to(setLink(url)); /* 设置连接 */
             if (err instanceof Error) throw err;
             console.log('>> '+data);
         } while (i < 10);
