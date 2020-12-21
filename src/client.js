@@ -1,12 +1,15 @@
 const inquirer = require("inquirer");
-const { trigger, check } = require("./lib/api/github");
-const { setLink, importLink } = require("./lib/listenNotice");
 const { to, delay } = require("./lib/utils");
+const { initSecret } = require("./config/config");
 
 (async function () {
     let err, data;
     try {
         let i = 0;
+        [err] = await to(initSecret());
+        if (err instanceof Error) throw err;
+        const { trigger, check } = require("./lib/api/github");
+        const { setLink, importLink } = require("./lib/listenNotice");
         do {
             [err, data] = await to(check()); /* 检查是否有正在运行的workflow */
             if (err instanceof Error) throw err;

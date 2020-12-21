@@ -1,7 +1,5 @@
 const { screenshot } = require("./lib/screenshot");
 const { to, delay } = require("./lib/utils");
-const { upload } = require("./lib/upload");
-const { importLink, exportLink } = require("./lib/listenNotice");
 const { initSecret } = require("./config/config");
 
 (async function () {
@@ -10,6 +8,8 @@ const { initSecret } = require("./config/config");
         [err] = await to(initSecret());
         if (err instanceof Error) throw err;
         let i = 0;
+        const { upload } = require("./lib/upload");
+        const { importLink, exportLink } = require("./lib/listenNotice");
         /* 循环10次 */
         do {
             [err, data] = await to(importLink()); /* 获取被代理的链接 */
