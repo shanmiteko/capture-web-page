@@ -12,7 +12,7 @@ const { initSecret } = require("./config/config");
         const { importLink, exportLink } = require("./lib/listenNotice");
         /* 循环10次 */
         do {
-            i > 0 ? await delay(6000) : i++;
+            i = i + 1;
             [err, data] = await to(importLink()); /* 获取被代理的链接 */
             if (err instanceof Error) throw err;
             const { cin, cout, no } = data;
@@ -26,6 +26,7 @@ const { initSecret } = require("./config/config");
 
             [err, data] = await to(exportLink(data)); /* 图片链接传送至公告栏 */
             if (err instanceof Error) throw err;
+            await delay(6000);
         } while (i < 10);
     } catch (error) { console.log(error.message) }
     return;

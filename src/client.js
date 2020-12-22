@@ -58,12 +58,12 @@ const { initSecret } = require("./config/config");
             if (get) {
                 [err, data] = await to(importLink()); /* 获取链接 */
                 const { cout } = data;
-                typeof cout === 'string' ? console.log(cout) : console.log('no proxy-url');
+                typeof cout === 'string' ? console.log('<< ' + cout) : console.log('<< no proxy-url');
             }
-            [err, data] = url === '' ? [undefined, undefined] : await to(setLink(url)); /* 设置连接 */
+            [err, data] = url === '' ? [undefined, 'No input'] : await to(setLink(url)); /* 设置连接 */
             if (err instanceof Error) throw err;
             console.log('>> ' + data);
-        } while (i < 10);
+        } while (i === 0);
         /* ********************交互命令行********************* */
     } catch (error) {
         console.log(error.message);
