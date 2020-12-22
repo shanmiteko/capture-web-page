@@ -2,7 +2,7 @@ const { getNotice, setNotice } = require("./api/bilibili");
 
 /**
  * 获取将要访问的link
- * @returns {Promise<{cin: string}|{cout: string}>}
+ * @returns {Promise<{cin: string}|{cout: string}|{no: string}>}
  */
 async function importLink() {
     try {
@@ -20,7 +20,8 @@ async function importLink() {
                 console.log('Successfully obtained the proxy link');
                 return { cout: url };
             } else {
-                return Promise.reject('请以">>"开头')
+                console.log('Input does not meet the requirements!\nPlease startwith ">>"');
+                return { no: '' }
             }
         } else {
             return typeof res === 'object' ? Promise.reject(JSON.stringify(res)) : Promise.reject(res)

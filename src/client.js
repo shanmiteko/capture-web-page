@@ -13,15 +13,24 @@ const { initSecret } = require("./config/config");
         do {
             [err, data] = await to(check()); /* 检查是否有正在运行的workflow */
             if (err instanceof Error) throw err;
-            if (i > 0) await delay(30000);
-            if (data.total_count > 0) continue;
-            console.log('no workflow in progress');
-            break;
-        } while (i < 5);
-        [err, data] = await to(trigger()) /* 触发工作流 */
-        if (err instanceof Error) throw err;
-        if (data !== '') throw new Error('failure to trigger!');
-        console.log('workflow has been triggered');
+            const { total_count } = data;
+            if (total_count === 0) {
+                console.log('No workflow in progress');
+                [err, data] = i === 0 ? await to(trigger()) : [undefined, null];/* 触发工作流 */
+                i = i + 1;
+                if (err instanceof Error) throw err;
+                if (data === null) continue;
+                if (data === '') {
+                    console.log('Workflow has been successfullly triggered');
+                } else {
+                    throw new Error('failure to trigger!\n' + JSON.stringify({ error_reason: data }))
+                }
+                await delay(3000)
+            } else {
+                console.log(`${total_count} workflows in progress`);
+                break;
+            }
+        } while (i < 10);
         /* ********************交互命令行********************* */
         i = 0;
         do {
@@ -30,17 +39,17 @@ const { initSecret } = require("./config/config");
                     type: 'input',
                     message: 'proxied-url:',
                     name: 'url',
-                    default: 'null'
+                    default: ''
                 }, {
                     type: 'confirm',
                     message: 'Whether or not to get proxy-url?',
                     name: 'get',
                     default: false
-                },{
+                }, {
                     type: 'confirm',
                     message: 'exit?',
                     name: 'exit',
-                    default: true
+                    default: false
                 }
             ]))
             if (err instanceof Error) throw err;
@@ -51,9 +60,9 @@ const { initSecret } = require("./config/config");
                 const { cout } = data;
                 typeof cout === 'string' ? console.log(cout) : console.log('no proxy-url');
             }
-            [err, data] = url === 'null' ? [undefined, undefined] : await to(setLink(url)); /* 设置连接 */
+            [err, data] = url === '' ? [undefined, undefined] : await to(setLink(url)); /* 设置连接 */
             if (err instanceof Error) throw err;
-            console.log('>> '+data);
+            console.log('>> ' + data);
         } while (i < 10);
         /* ********************交互命令行********************* */
     } catch (error) {

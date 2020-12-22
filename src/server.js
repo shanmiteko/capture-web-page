@@ -15,8 +15,8 @@ const { initSecret } = require("./config/config");
             i > 0 ? await delay(6000) : i++;
             [err, data] = await to(importLink()); /* 获取被代理的链接 */
             if (err instanceof Error) throw err;
-            const { cin, cout } = data;
-            if (typeof cout === 'string') continue;
+            const { cin, cout, no } = data;
+            if (typeof cout === 'string' || typeof no === 'string') continue;
 
             [err, data] = await to(screenshot(cin)); /* 获取访问截图 */
             if (err instanceof Error) throw err;
