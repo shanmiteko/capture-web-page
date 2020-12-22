@@ -12,7 +12,8 @@ const { initSecret } = require("./config/config");
         const { importLink, exportLink } = require("./lib/listenNotice");
         /* 循环20次 */
         do {
-            i === 0 ? i++ : await delay(6000);
+            if(i > 0) await delay(6000);
+            i = i + 1;
             [err, data] = await to(importLink()); /* 获取被代理的链接 */
             if (err instanceof Error) throw err;
             const { cin, cout, no } = data;
