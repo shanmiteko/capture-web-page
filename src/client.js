@@ -1,21 +1,32 @@
 const inquirer = require("inquirer");
 const { to, delay } = require("./lib/utils");
-const { initSecret } = require("./config/config");
+const { trigger, check } = require("./lib/api/github");
+const { fetchInput, setProxied } = require("./lib/linkIO");
 
-(async function () {
+/**
+ * 客户端
+ */
+module.exports = async function client() {
     let err, data;
     try {
         let i = 0;
-        [err] = await to(initSecret());
-        if (err instanceof Error) throw err;
-        const { trigger, check } = require("./lib/api/github");
-        const { setLink, importLink } = require("./lib/listenNotice");
         do {
             [err, data] = await to(check()); /* 检查是否有正在运行的workflow */
             if (err instanceof Error) throw err;
             const { total_count } = data;
+            if (typeof total_count === 'undefined') throw new Error(JSON.stringify({ error_reason: data }))
             if (total_count === 0) {
                 console.log('No workflow in progress');
+                [err, data] = await to(inquirer.prompt([
+                    {
+                        type: 'confirm',
+                        message: 'trigger the workflow?',
+                        name: 'btrigger',
+                        default: false
+                    }
+                ]))
+                if (err instanceof Error) throw err;
+                if (!data.btrigger) break;
                 [err, data] = i === 0 ? await to(trigger()) : [undefined, null];/* 触发工作流 */
                 i = i + 1;
                 if (err instanceof Error) throw err;
@@ -25,19 +36,20 @@ const { initSecret } = require("./config/config");
                 } else {
                     throw new Error('failure to trigger!\n' + JSON.stringify({ error_reason: data }))
                 }
-                await delay(3000)
+                await delay(6000);
             } else {
                 console.log(`${total_count} workflows in progress`);
                 break;
             }
         } while (i < 10);
+
         /* ********************交互命令行********************* */
         i = 0;
         do {
             [err, data] = await to(inquirer.prompt([
                 {
                     type: 'input',
-                    message: 'proxied-url:',
+                    message: 'The proxied-url:',
                     name: 'url',
                     default: ''
                 }, {
@@ -47,7 +59,7 @@ const { initSecret } = require("./config/config");
                     default: false
                 }, {
                     type: 'confirm',
-                    message: 'exit?',
+                    message: 'Exit?',
                     name: 'exit',
                     default: false
                 }
@@ -56,16 +68,17 @@ const { initSecret } = require("./config/config");
             const { url, get, exit } = data;
             if (exit) break;
             if (get) {
-                [err, data] = await to(importLink()); /* 获取链接 */
-                const { cout } = data;
-                typeof cout === 'string' ? console.log('<< ' + cout) : console.log('<< no proxy-url');
+                [err, data] = await to(fetchInput()); /* 获取链接 */
+                const { proxy } = data;
+                typeof proxy === 'string' ? console.log('<< ' + proxy) : console.log('<< No proxy-url');
             }
-            [err, data] = url === '' ? [undefined, 'No input'] : await to(setLink(url)); /* 设置连接 */
+            [err, data] = url === '' ? [undefined, undefined] : await to(setProxied(url)); /* 设置被代理链接 */
             if (err instanceof Error) throw err;
-            console.log('>> ' + data);
+            if (typeof data !== 'undefined') console.log('>> ' + data);
         } while (i === 0);
         /* ********************交互命令行********************* */
+
     } catch (error) {
         console.log(error.message);
     }
-})()
+}

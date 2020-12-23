@@ -1,10 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
-/**
- * 项目的根目录
- */
-const root = path.join(__dirname, '..', '..')
+const { root } = require('../configs/config');
 
 /**
  * @template T
@@ -37,7 +33,7 @@ function delay(time) {
  * @param {string} dirname 相对于根目录的目录路径
  * @returns {Promise<void}
  */
-function IfNotExistCreateDir(dirname) {
+function ifNotExistCreateDir(dirname) {
     const dirpath = path.join(root, dirname);
     return new Promise((resolve) => {
         fs.opendir(dirpath, (err, dir) => {
@@ -54,7 +50,7 @@ function IfNotExistCreateDir(dirname) {
  * @param {string} [defaultValue] 写入默认值
  * @returns {Promise<void>}
  */
-function IfNotExistCreateFile(filepath, defaultValue = '') {
+function ifNotExistCreateFile(filepath, defaultValue = '') {
     const fpath = path.join(root, filepath);
     const buffer = Buffer.from(defaultValue);
     return new Promise((resolve, rejects) => {
@@ -74,10 +70,26 @@ function IfNotExistCreateFile(filepath, defaultValue = '') {
     });
 }
 
+/**
+ * 初始化secret.json文件
+ * @returns {Promise<void>}
+ */
+function initSecret() {
+    const { BILI = '', TOKEN = '', REPO = '' } = process.env;
+    return ifNotExistCreateFile(
+        'src/config/secret.json',
+        JSON.stringify({
+            bili_cookies: BILI,
+            github_access_token: TOKEN,
+            github_repository: REPO
+        })
+    )
+}
+
 module.exports = {
-    root,
-    delay,
     to,
-    IfNotExistCreateDir,
-    IfNotExistCreateFile
+    delay,
+    ifNotExistCreateDir,
+    ifNotExistCreateFile,
+    initSecret
 }

@@ -1,5 +1,5 @@
-const { root, IfNotExistCreateDir } = require('./utils');
-const config = require('../config/config');
+const { ifNotExistCreateDir } = require('./utils');
+const { root, OUTPATH, UA } = require('../configs/config');
 const puppeteer = require('puppeteer');
 const path = require('path');
 
@@ -12,9 +12,8 @@ const path = require('path');
  * @param {string} [filename] 文件名
  * @returns {Promise<string>} 文件名
  */
-async function screenshot(link, w = 1280, h = 720, filename = Date.now() + '.png') {
-    const { OUTPATH, UA } = config;
-    await IfNotExistCreateDir(OUTPATH);
+module.exports = async function screenshot(link, w = 1280, h = 720, filename = Date.now() + '.png') {
+    await ifNotExistCreateDir(OUTPATH);
     try {
         const url = new URL(link);
         const browser = await puppeteer.launch();
@@ -35,5 +34,3 @@ async function screenshot(link, w = 1280, h = 720, filename = Date.now() + '.png
     }
     return filename;
 }
-
-module.exports = { screenshot }

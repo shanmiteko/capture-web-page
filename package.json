@@ -1,19 +1,20 @@
 {
   "name": "capture-web-page",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "capture web page",
   "main": "main.js",
   "scripts": {
-    "install": "npm install",
+    "all-install": "npm install",
     "server-install": "npm install axios form-data puppeteer",
-    "server": "node src/server.js",
+    "server": "node main.js server",
     "client-install": "npm install axios inquirer",
-    "client": "node src/client.js",
-    "start": "node main.js"
+    "client": "node main.js client",
+    "start": "node main.js client"
   },
   "keywords": [
     "capture",
-    "screenshot"
+    "screenshot",
+    "cross GFW"
   ],
   "author": "shanmite",
   "license": "MIT",
