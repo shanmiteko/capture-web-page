@@ -4,7 +4,7 @@ module.exports = {
     /**
      * 项目的根目录
      */
-    root : path.join(__dirname, '..', '..'),
+    root : path.join(__dirname, '..'),
     /**
      * 图片输出路径
      */
