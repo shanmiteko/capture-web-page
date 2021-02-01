@@ -17,18 +17,23 @@ Github.interceptors.response.use(
     err => err.response
 )
 
-/**
- * 触发工作流
- */
-exports.trigger = () => Github.post(`/repos/${github_repository}/actions/workflows/server.yml/dispatches`, { ref: 'master' }),
-/**
- * 检查运行中的工作流
- */
-exports.check = () => Github.get(
-    `/repos/${github_repository}/actions/runs`,
-    {
-        params: {
-            status: 'in_progress'
+module.exports = {
+    /**
+     * 触发工作流
+     */
+    trigger: () => Github.post(
+        `/repos/${github_repository}/actions/workflows/server.yml/dispatches`,
+        { ref: 'master' }
+    ),
+    /**
+     * 检查运行中的工作流
+     */
+    check: () => Github.get(
+        `/repos/${github_repository}/actions/runs`,
+        {
+            params: {
+                status: 'in_progress'
+            }
         }
-    }
-)
+    )
+}

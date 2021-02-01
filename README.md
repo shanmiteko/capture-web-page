@@ -8,6 +8,12 @@
 ![example](.github/images/example.png)  
 
 ## 使用
+### 环境变量
+| 变量名  | 值               |
+| ------- | ---------------- |
+| `BILI`  | bilibili Cookies |
+| `TOKEN` | GitHub Token     |
+| `REPO`  | 仓库名           |
 ### 客户端
 ```shell
 npm run client-install

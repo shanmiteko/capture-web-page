@@ -31,48 +31,48 @@ const Bili = axios.create({
     }
 });
 
-/**
- * 上传至bili图床
- * @param {import("form-data")} form
- */
-exports.imgBed = (form) => {
-    if (bili_cookies.length === 0) return Promise.reject('请在src/config/secret.json中的bili_cookie处填入值');
-    return Bilivc.post(
-        '/api/v1/drawImage/upload',
-        form,
-        { headers: { ...form.getHeaders() } }
-    )
-}
-
-/**
- * 获取公告栏信息
- */
-exports.getNotice = () => {
-    return Bili.get(
-        '/x/space/notice',
-        {
-            params: {
-                mid: uid
-            },
-        }
-    )
-}
-
-/**
- * 设置公告信息
- * @param {string} text
- */
-exports.setNotice = (text) => {
-    return Bili.post(
-        '/x/space/notice/set',
-        {
-            notice: text,
-            csrf: csrf
-        },
-        {
-            headers: {
-                "content-type": "application/x-www-form-urlencoded; charset=utf-8"
+module.exports = {
+    /**
+     * 上传至bili图床
+     * @param {import("form-data")} form
+     */
+    imgBed: (form) => {
+        if (bili_cookies.length === 0) return Promise.reject('请在src/config/secret.json中的bili_cookie处填入值');
+        return Bilivc.post(
+            '/api/v1/drawImage/upload',
+            form,
+            { headers: { ...form.getHeaders() } }
+        )
+    },
+    /**
+     * 获取公告栏信息
+     */
+    getNotice: () => {
+        return Bili.get(
+            '/x/space/notice',
+            {
+                params: {
+                    mid: uid
+                },
             }
-        }
-    )
+        )
+    },
+    /**
+     * 设置公告信息
+     * @param {string} text
+     */
+    setNotice: (text) => {
+        return Bili.post(
+            '/x/space/notice/set',
+            {
+                notice: text,
+                csrf: csrf
+            },
+            {
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded; charset=utf-8"
+                }
+            }
+        )
+    }
 }
