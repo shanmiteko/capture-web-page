@@ -1,4 +1,3 @@
-const { to, initSecret } = require("./src/lib/utils");
 const client = require("./src/client");
 const server = require("./src/server");
 
@@ -9,8 +8,6 @@ const argv = process.argv.slice(2);
 
 (async function () {
     try {
-        const [err] = await to(initSecret());
-        if (err instanceof Error) throw err;
         switch (argv[0]) {
             case 'client':
                 await client();

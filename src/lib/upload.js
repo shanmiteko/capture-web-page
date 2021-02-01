@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const { imgBed } = require("./api/bilibili");
-const { OUTPATH, root } = require('../configs/config');
+const { OUTPATH, root } = require('../config');
 
 /**
  * 上传本地图片

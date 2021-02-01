@@ -1,5 +1,5 @@
 const { default: Axios } = require("axios");
-const { UA } = require('../../configs/config');
+const { UA } = require('../../config');
 const { stringify, parse } = require('querystring');
 
 Axios.defaults = {

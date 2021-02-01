@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { root } = require('../configs/config');
+const { root } = require('../config');
 
 /**
  * @template T
@@ -70,26 +70,9 @@ function ifNotExistCreateFile(filepath, defaultValue = '') {
     });
 }
 
-/**
- * 初始化secret.json文件
- * @returns {Promise<void>}
- */
-function initSecret() {
-    const { BILI = '', TOKEN = '', REPO = '' } = process.env;
-    return ifNotExistCreateFile(
-        'src/config/secret.json',
-        JSON.stringify({
-            bili_cookies: BILI,
-            github_access_token: TOKEN,
-            github_repository: REPO
-        })
-    )
-}
-
 module.exports = {
     to,
     delay,
     ifNotExistCreateDir,
     ifNotExistCreateFile,
-    initSecret
 }

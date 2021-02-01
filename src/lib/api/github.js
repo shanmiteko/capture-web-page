@@ -1,5 +1,5 @@
 const { axios } = require("./common")
-const { github_access_token,github_repository } = require('../../configs/secret.json');
+const { TOKEN: github_access_token, REPO: github_repository } = process.env;
 
 /**
  * @host https://api.github.com

@@ -1,5 +1,5 @@
 const { ifNotExistCreateDir } = require('./utils');
-const { root, OUTPATH, UA } = require('../configs/config');
+const { root, OUTPATH, UA } = require('../config');
 const puppeteer = require('puppeteer');
 const path = require('path');
 

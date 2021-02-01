@@ -1,5 +1,5 @@
 const { axios } = require("./common");
-const { bili_cookies } = require('../../configs/secret.json');
+const { BILI: bili_cookies } = process.env;
 
 const [uid, csrf] = (() => {
     const map = new Map();
