@@ -1,5 +1,4 @@
 # 获取网页截图
-![license](https://img.shields.io/github/license/shanmite/capture-web-page)  
 ![action-badge](https://github.com/shanmite/capture-web-page/workflows/Run%20in%20Nodejs/badge.svg)  
 
 - 通过`GitHub Actions`服务器访问指定网站并获取截图  
