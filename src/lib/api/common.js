@@ -3,7 +3,7 @@ const { UA } = require('../../config');
 const { stringify, parse } = require('querystring');
 
 Axios.defaults = {
-    timeout: 6000,
+    timeout: 10000,
     headers: {
         'user-agent': UA,
     },
@@ -20,4 +20,5 @@ Axios.defaults = {
         return data
     }]
 }
+
 exports.axios = Axios;

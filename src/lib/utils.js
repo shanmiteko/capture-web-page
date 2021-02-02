@@ -9,7 +9,7 @@ const { root } = require('../config');
  */
 function to(promise) {
     return promise
-        .then(data => [null, data])
+        .then(pdata => [null, pdata])
         .catch(err => {
             if (err instanceof Error) return [err, undefined]
             return [new Error(err), undefined]

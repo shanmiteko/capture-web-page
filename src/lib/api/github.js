@@ -12,10 +12,6 @@ const Github = axios.create({
         "content-type": "application/json; charset=utf-8"
     }
 })
-Github.interceptors.response.use(
-    res => res.data,
-    err => err.response
-)
 
 module.exports = {
     /**

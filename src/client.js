@@ -7,17 +7,17 @@ const { fetchInput, setProxied } = require("./lib/linkIO");
  * 客户端
  */
 module.exports = async function client() {
-    let err, data;
+    let err, pdata;
     try {
         let i = 0;
         do {
-            [err, data] = await to(check()); /* 检查是否有正在运行的workflow */
+            [err, pdata] = await to(check()); /* 检查是否有正在运行的workflow */
             if (err instanceof Error) throw err;
-            const { total_count } = data;
-            if (typeof total_count === 'undefined') throw new Error(JSON.stringify({ error_reason: data }))
+            const { total_count } = pdata.data;
+            if (typeof total_count === 'undefined') throw new Error(JSON.stringify({ error_reason: pdata }))
             if (total_count === 0) {
                 console.log('No workflow in progress');
-                [err, data] = await to(inquirer.prompt([
+                [err, pdata] = await to(inquirer.prompt([
                     {
                         type: 'confirm',
                         message: 'trigger the workflow?',
@@ -26,15 +26,14 @@ module.exports = async function client() {
                     }
                 ]))
                 if (err instanceof Error) throw err;
-                if (!data.btrigger) break;
-                [err, data] = i === 0 ? await to(trigger()) : [undefined, null];/* 触发工作流 */
-                i = i + 1;
+                if (!pdata.btrigger) break;
+                [err, pdata] = i++ ? [undefined, null] : await to(trigger());/* 触发工作流 */
                 if (err instanceof Error) throw err;
-                if (data === null) continue;
-                if (data === '') {
+                if (pdata === null) continue;
+                if (pdata.data === '') {
                     console.log('Workflow has been successfullly triggered');
                 } else {
-                    throw new Error('failure to trigger!\n' + JSON.stringify({ error_reason: data }))
+                    throw new Error('failure to trigger!\n' + JSON.stringify({ error_reason: pdata }))
                 }
                 await delay(6000);
             } else {
@@ -46,7 +45,7 @@ module.exports = async function client() {
         /* ********************交互命令行********************* */
         i = 0;
         do {
-            [err, data] = await to(inquirer.prompt([
+            [err, pdata] = await to(inquirer.prompt([
                 {
                     type: 'input',
                     message: 'The proxied-url:',
@@ -65,16 +64,16 @@ module.exports = async function client() {
                 }
             ]))
             if (err instanceof Error) throw err;
-            const { url, get, exit } = data;
+            const { url, get, exit } = pdata;
             if (exit) break;
             if (get) {
-                [err, data] = await to(fetchInput()); /* 获取链接 */
-                const { proxy } = data;
+                [err, pdata] = await to(fetchInput()); /* 获取链接 */
+                const { proxy } = pdata;
                 typeof proxy === 'string' ? console.log('<< ' + proxy) : console.log('<< No proxy-url');
             }
-            [err, data] = url === '' ? [undefined, undefined] : await to(setProxied(url)); /* 设置被代理链接 */
+            [err, pdata] = url === '' ? [undefined, undefined] : await to(setProxied(url)); /* 设置被代理链接 */
             if (err instanceof Error) throw err;
-            if (typeof data !== 'undefined') console.log('>> ' + data);
+            if (typeof pdata !== 'undefined') console.log('>> ' + pdata);
         } while (i === 0);
         /* ********************交互命令行********************* */
 
